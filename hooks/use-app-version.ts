@@ -11,7 +11,7 @@ import Constants from 'expo-constants';
  * 
  * @example
  * const version = useAppVersion();
- * console.log(version); // "2.0.0"
+ * console.log(version); // "2.0.1"
  */
 export function useAppVersion(): string {
   return useMemo(() => {
@@ -44,11 +44,11 @@ export function useAppBuildNumber(): string {
 /**
  * Hook to get formatted version display string
  * 
- * @returns Formatted string like "v1.0.18 (build 18)"
+ * @returns Formatted string like "v2.0.1 (build 21)"
  * 
  * @example
  * const versionDisplay = useVersionDisplay();
- * console.log(versionDisplay); // "v1.0.18 (build 18)"
+ * console.log(versionDisplay); // "v2.0.1 (build 21)"
  */
 export function useVersionDisplay(): string {
   const version = useAppVersion();
@@ -72,9 +72,9 @@ export function useVersionDisplay(): string {
  * console.log(appInfo);
  * // {
  * //   name: "Pakistan Emergency Helpline",
- * //   version: "1.0.18",
- * //   buildNumber: "18",
- * //   displayVersion: "v1.0.18 (build 18)"
+ * //   version: "2.0.1",
+ * //   buildNumber: "21",
+ * //   displayVersion: "v2.0.1 (build 21)"
  * // }
  */
 export interface AppInfo {
