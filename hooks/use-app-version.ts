@@ -28,7 +28,7 @@ export function useAppVersion(): string {
  * 
  * @example
  * const buildNumber = useAppBuildNumber();
- * console.log(buildNumber); // "18"
+ * console.log(buildNumber); // "21"
  */
 export function useAppBuildNumber(): string {
   return useMemo(() => {
