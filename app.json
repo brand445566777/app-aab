@@ -18,7 +18,7 @@
     "android": {
       "minSdkVersion": 24,
       "targetSdkVersion": 34,
-      "compileSdkVersion": 34,
+      "compileSdkVersion": 35,
       "versionCode": 21,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
@@ -90,7 +90,7 @@
             ],
             "minSdkVersion": 24,
             "targetSdkVersion": 34,
-            "compileSdkVersion": 34,
+            "compileSdkVersion": 35,
             "kotlinVersion": "2.1.20"
           }
         }
