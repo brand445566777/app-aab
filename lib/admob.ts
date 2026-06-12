@@ -165,5 +165,5 @@ export const ADMOB_CONFIG = {
   partners: Object.keys(MEDIATION_PARTNERS),
   testDeviceEnabled: __DEV__, // Only in development
   supportedAdFormats: ['banner', 'native'],
-  version: '1.0.0',
+  version: '2.0.1',
 };
