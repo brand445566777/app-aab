@@ -25,19 +25,23 @@ jobs:
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Grant Execute Permission to Gradlew
+        run: |
+          cd android
+          chmod +x gradlew
+
       - name: Clean Old Duplicate Assets
         run: |
           cd android
-          ./gradlew clean
           rm -rf app/src/main/assets/index.android.bundle
           rm -rf app/src/main/res/drawable-*
           rm -rf app/src/main/res/raw/*
+          bash ./gradlew clean
 
       - name: Build Clean Production Bundle (AAB)
         run: |
           cd android
-          chmod +x gradlew
-          ./gradlew bundleRelease --no-daemon
+          bash ./gradlew bundleRelease --no-daemon
 
       - name: Upload Verified AAB Artifact
         uses: actions/upload-artifact@v4
