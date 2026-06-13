@@ -25,19 +25,22 @@ jobs:
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Clear Old Android Build Cache
+      - name: Clean Old Duplicate Assets
         run: |
           cd android
-          rm -rf build app/build .gradle
+          ./gradlew clean
+          rm -rf app/src/main/assets/index.android.bundle
+          rm -rf app/src/main/res/drawable-*
+          rm -rf app/src/main/res/raw/*
 
-      - name: Build Android App Bundle (AAB)
+      - name: Build Clean Production Bundle (AAB)
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew bundleRelease --no-daemon -x lint -Pandroid.experimental.self-contained=true
+          ./gradlew bundleRelease --no-daemon
 
-      - name: Upload AAB Artifact
+      - name: Upload Verified AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          name: production-app-release
+          path: android/app/build/outputs/bundle/release/*.aab
