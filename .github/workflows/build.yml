@@ -30,15 +30,12 @@ jobs:
           cd android
           chmod +x gradlew
 
-      - name: Clean Old Duplicate Assets
+      - name: Safe Project Clean
         run: |
           cd android
-          rm -rf app/src/main/assets/index.android.bundle
-          rm -rf app/src/main/res/drawable-*
-          rm -rf app/src/main/res/raw/*
           bash ./gradlew clean
 
-      - name: Build Clean Production Bundle (AAB)
+      - name: Build Production Bundle (AAB)
         run: |
           cd android
           bash ./gradlew bundleRelease --no-daemon
