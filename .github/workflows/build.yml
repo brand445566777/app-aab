@@ -25,23 +25,24 @@ jobs:
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Fix Execute Permission
+      - name: Grant Execute Permission to Gradlew
         run: |
           cd android
           chmod +x gradlew
 
-      - name: Fresh Clean Project
+      - name: Force Clean Cache and Old Assets
         run: |
           cd android
           bash ./gradlew clean
+          rm -rf app/build
 
-      - name: Build Standard Production Bundle
+      - name: Build Authentic Production Bundle (AAB)
         run: |
           cd android
-          bash ./gradlew bundleRelease --no-daemon
+          bash ./gradlew assembleRelease bundleRelease --no-daemon -PsigningConfig=release
 
-      - name: Upload Finished AAB
+      - name: Upload Verified AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-production-ready
+          name: production-app-release
           path: android/app/build/outputs/bundle/release/*.aab
