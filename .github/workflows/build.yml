@@ -1,4 +1,5 @@
 name: Generate Play Store AAB
+
 on:
   push:
     branches: [ main ]
@@ -35,11 +36,8 @@ jobs:
           chmod +x gradlew
           ./gradlew bundleRelease --no-daemon -x lint -Pandroid.experimental.self-contained=true
 
-       - name: Download a Build Artifact
-         uses: actions/download-artifact@v3.1.0
-         with:
-          # Artifact name
-           name: # optional
-           # Destination path
-           path: # optional
-          
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
