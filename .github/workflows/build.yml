@@ -21,25 +21,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
       - name: Grant Execute Permission to Gradlew
-        run: |
-          cd android
-          chmod +x gradlew
+        run: chmod +x android/gradlew
 
       - name: Force Clean Cache and Old Assets
         run: |
           cd android
-          bash ./gradlew clean
+          ./gradlew clean
           rm -rf app/build
 
       - name: Build Authentic Production Bundle (AAB)
         run: |
           cd android
-          bash ./gradlew assembleRelease bundleRelease --no-daemon -PsigningConfig=release
+          ./gradlew bundleRelease --no-daemon
 
       - name: Upload Verified AAB Artifact
         uses: actions/upload-artifact@v4
