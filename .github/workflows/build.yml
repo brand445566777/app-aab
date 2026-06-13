@@ -21,19 +21,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Remove Wrong Auto-Generated Keystore
+        run: rm -f android/app/debug.keystore
+
+      - name: Decode Authentic Keystore File
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/debug.keystore
+
       - name: Grant Execute Permission to Gradlew
         run: chmod +x android/gradlew
 
-      - name: Force Clean Cache and Old Assets
+      - name: Force Clean Cache
         run: |
           cd android
           ./gradlew clean
-          rm -rf app/build
 
       - name: Build Authentic Production Bundle (AAB)
         run: |
