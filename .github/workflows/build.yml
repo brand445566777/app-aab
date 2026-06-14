@@ -29,21 +29,24 @@ jobs:
 
     - name: Decode Android Keystore File
       run: |
-         echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/my-release-key.keystore
+        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/production.keystore
 
     - name: Verify and Print SHA Fingerprints
       run: |
-        echo "=== FETCHING SHA FINGERPRINTS FROM DECODED KEYSTORE ==="
+        echo "=== FETCHING SHA FINGERPRINTS FROM PRODUCTION KEYSTORE ==="
         keytool -list -v \
-          -keystore android/app/my-release-key.keystore \
+          -keystore android/app/production.keystore \
           -alias "${{ secrets.ANDROID_KEY_ALIAS }}" \
           -storepass "${{ secrets.ANDROID_KEY_PASSWORD }}"
+
+    - name: Grant Execute Permission for Gradlew
+      run: chmod +x android/gradlew
 
     - name: Build Android App Bundle (AAB)
       run: |
         cd android
         ./gradlew bundleRelease \
-          -Pandroid.injected.signing.store.file=my-release-key.keystore \
+          -Pandroid.injected.signing.store.file=production.keystore \
           -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
           -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
