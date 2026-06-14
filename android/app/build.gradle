@@ -104,13 +104,13 @@ android {
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
-            keyAlias 'androiddebugkey'
+            keyAlias 'AAPKA_ALIAS'
             keyPassword 'android'
         }
         release {
             storeFile file('debug.keystore')
             storePassword 'android'
-            keyAlias 'androiddebugkey'
+            keyAlias 'AAPKA_ALIAS'
             keyPassword 'android'
         }
     }
