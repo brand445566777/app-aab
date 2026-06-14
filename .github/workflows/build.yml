@@ -29,7 +29,7 @@ jobs:
 
     - name: Decode Android Keystore File
       run: |
-        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.keystore
+         echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/my-release-key.keystore
 
     - name: Verify and Print SHA Fingerprints
       run: |
