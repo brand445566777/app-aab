@@ -22,7 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '18'
 
     - name: Install Dependencies
       run: npm install
@@ -42,11 +42,12 @@ jobs:
     - name: Grant Execute Permission for Gradlew
       run: chmod +x android/gradlew
 
+    # === FIXED GRADLE PATH ERROR ===
     - name: Build Android App Bundle (AAB)
       run: |
         cd android
         ./gradlew bundleRelease \
-          -Pandroid.injected.signing.store.file=production.keystore \
+          -Pandroid.injected.signing.store.file=$(pwd)/app/production.keystore \
           -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
           -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
