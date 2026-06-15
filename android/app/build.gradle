@@ -100,27 +100,21 @@ android {
 
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
-   signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'AAPKA_ALIAS'
-            keyPassword 'android'
-        }
-        release {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'AAPKA_ALIAS'
-            keyPassword 'android'
-        }
+    
+        signingConfigs {
+            debug {
+        storeFile file('debug.keystore')
+        storePassword 'android'
+        keyAlias 'android'
+        keyPassword 'android'
     }
-
-    buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-      }
-        release {
-            signingConfig signingConfigs.release
+    release {
+        storeFile file(System.getenv("ANDROID_KEYSTORE_FILE") ?: "production.keystore")
+        storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: ""
+        keyAlias System.getenv("ANDROID_KEY_ALIAS") ?: ""
+        keyPassword System.getenv("ANDROID_KEY_PASSWORD") ?: ""
+    }
+}
             
             def enableShrinkResources = findProperty('android.enableShrinkResourcesInReleaseBuilds') ? findProperty('android.enableShrinkResourcesInReleaseBuilds').toBoolean() : false
             minifyEnabled enableMinifyInReleaseBuilds
