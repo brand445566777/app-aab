@@ -99,7 +99,15 @@ def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
     aaptOptions {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
+ }
+  packaging {
+    resources {
+        excludes += '/META-INF/{AL2.0,LGPL2.1}'
+  }
+    jniLibs {
+        useLegacyPackaging = true
     }
+}
 
     signingConfigs {
         debug {
@@ -124,15 +132,7 @@ def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
         }
     }
 }
-   packaging {
-    resources {
-        excludes += '/META-INF/{AL2.0,LGPL2.1}'
-  }
-       jniLibs {
-        useLegacyPackaging = true
-    }
-}
-
+  
 // Apply static values from `gradle.properties` to the `android.packagingOptions`
 // Accepts values in comma delimited lists, example:
 // android.packagingOptions.pickFirsts=/LICENSE,**/picasa.ini
