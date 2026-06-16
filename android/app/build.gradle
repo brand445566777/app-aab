@@ -119,7 +119,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             
             def enableShrinkResources = findProperty('expo.enableShrinkResourcesInReleaseBuilds') ? findProperty('expo.enableShrinkResourcesInReleaseBuilds').toBoolean() : false
