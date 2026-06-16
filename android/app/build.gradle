@@ -101,7 +101,6 @@ android {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
 
-    // Fixed Packaging Options Block inside android
     packaging {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
@@ -126,13 +125,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            
-            def enableShrinkResources = findProperty('expo.enableShrinkResourcesInReleaseBuilds') ? findProperty('expo.enableShrinkResourcesInReleaseBuilds').toBoolean() : false
-            shrinkResources enableShrinkResources
-            def enablePngCrunchInRelease = findProperty('expo.enablePngCrunchInReleaseBuilds') ? findProperty('expo.enablePngCrunchInReleaseBuilds').toBoolean() : false
-            crunchPngs enablePngCrunchInRelease
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
