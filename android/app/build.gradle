@@ -97,9 +97,15 @@ android {
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
 
-    // Fixed Assets Pattern Block inside android
     aaptOptions {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
+    }
+
+    // Fixed Packaging Options Block inside android
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 
     signingConfigs {
@@ -119,7 +125,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             
             def enableShrinkResources = findProperty('expo.enableShrinkResourcesInReleaseBuilds') ? findProperty('expo.enableShrinkResourcesInReleaseBuilds').toBoolean() : false
