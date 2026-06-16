@@ -124,12 +124,14 @@ def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
         }
     }
 }
-    packagingOptions {
-        jniLibs {
-            def enableLegacyPackaging = findProperty('expo.useLegacyPackaging') ?: 'false'
-            useLegacyPackaging enableLegacyPackaging.toBoolean()
-        }
+   packaging {
+    resources {
+        excludes += '/META-INF/{AL2.0,LGPL2.1}'
+  }
+       jniLibs {
+        useLegacyPackaging = true
     }
+}
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`
 // Accepts values in comma delimited lists, example:
