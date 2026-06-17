@@ -19,7 +19,7 @@
       "minSdkVersion": 24,
       "targetSdkVersion": 35,
       "compileSdkVersion": 36,
-      "versionCode": 21,
+      "versionCode": 10029,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#0A3D62",
