@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pakistan Emergency Helpline",
     "slug": "pakistan-emergency-helpline",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "icon": "./assets/images/icon.png",
     "scheme": "manust20260304040534",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
       "minSdkVersion": 24,
       "targetSdkVersion": 35,
       "compileSdkVersion": 36,
-      "versionCode": 10029,
+      "versionCode": 10030,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#0A3D62",
@@ -108,7 +108,7 @@
       "reactCompiler": false
     },
     "extra": {
-      "appVersion": "2.0.1",
+      "appVersion": "2.0.2",
       "androidAppId": "ca-app-pub-3617790148719581~6917999502",
       "router": {},
       "eas": {
