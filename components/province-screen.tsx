@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from "react-native";
 import { useState, useMemo } from "react";
-import ScreenContainer from "./screen-container";
+import { ScreenContainer } from "./screen-container";
 import { HelplineCard } from "./helpline-card";
 import { CategoryFilterBar } from "./category-filter-bar";
 import { ProvinceData } from "@/lib/helplines";
