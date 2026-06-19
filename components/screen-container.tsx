@@ -1,8 +1,8 @@
 import { View, type ViewProps } from "react-native";
 import { SafeAreaView, type Edge } from "react-native-safe-area-context";
-
 import { cn } from "@/lib/utils";
-
+import { cssInterop } from "react-native-css-interop";
+cssInterop(SafeAreaView, { className: "style" });
 export interface ScreenContainerProps extends ViewProps {
   /**
    * SafeArea edges to apply. Defaults to ["top", "left", "right"].
