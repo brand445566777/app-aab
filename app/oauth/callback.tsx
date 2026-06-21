@@ -4,7 +4,7 @@ import * as Auth from "@/lib/_core/auth";
 import * as Linking from "expo-linking";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native"
+import { ActivityIndicator, Text, View } from "react-native";
 
 export default function OAuthCallback() {
   const router = useRouter();
@@ -234,7 +234,7 @@ export default function OAuthCallback() {
   }, [params.code, params.state, params.error, params.sessionToken, params.user, router]);
 
   return (
-    <SafeAreaView className="flex-1" edges={["top", "bottom", "left", "right"]}>
+    <View className="flex-1">
       <ThemedView className="flex-1 items-center justify-center gap-4 p-5">
         {status === "processing" && (
           <>
