@@ -153,8 +153,6 @@ export default function OAuthCallback() {
           console.log("[OAuth] Session token found in URL, storing...");
           await Auth.setSessionToken(sessionToken);
           console.log("[OAuth] Session token stored successfully");
-          // User info is already in the OAuth callback response
-          // No need to fetch from API
           setStatus("success");
           console.log("[OAuth] Redirecting to home...");
           setTimeout(() => {
@@ -180,20 +178,9 @@ export default function OAuthCallback() {
           state: state.substring(0, 20) + "...",
         });
         const result = await Api.exchangeOAuthCode(code, state);
-        console.log("[OAuth] Exchange result:", {
-          hasSessionToken: !!result.sessionToken,
-          hasUser: !!result.user,
-        });
-
         if (result.sessionToken) {
-          console.log("[OAuth] Session token received, storing...");
-          // Store session token
           await Auth.setSessionToken(result.sessionToken);
-          console.log("[OAuth] Session token stored successfully");
-
-          // Store user info if available
           if (result.user) {
-            console.log("[OAuth] User data received:", result.user);
             const userInfo: Auth.User = {
               id: result.user.id,
               openId: result.user.openId,
@@ -203,68 +190,44 @@ export default function OAuthCallback() {
               lastSignedIn: new Date(result.user.lastSignedIn || Date.now()),
             };
             await Auth.setUserInfo(userInfo);
-            console.log("[OAuth] User info stored:", userInfo);
-          } else {
-            console.log("[OAuth] No user data in result");
           }
-
           setStatus("success");
-          console.log("[OAuth] Authentication successful, redirecting to home...");
-
-          // Redirect to home after a short delay
           setTimeout(() => {
-            console.log("[OAuth] Executing redirect...");
             router.replace("/(tabs)");
           }, 1000);
         } else {
-          console.error("[OAuth] No session token in result:", result);
           setStatus("error");
-          setErrorMessage("No session token received");
+          setErrorMessage("Authentication failed");
         }
-      } catch (error) {
-        console.error("[OAuth] Callback error:", error);
+      } catch (err: any) {
+        console.error("[OAuth] Callback handler error:", err);
         setStatus("error");
-        setErrorMessage(
-          error instanceof Error ? error.message : "Failed to complete authentication",
-        );
+        setErrorMessage(err?.message || "An unexpected error occurred");
       }
     };
 
     handleCallback();
-  }, [params.code, params.state, params.error, params.sessionToken, params.user, router]);
+  }, [params, router]);
 
+  // 🛠️ FIX: SafeAreaView ko mita kar standard <View> tag laga diya hai crash se bachne ke liye
   return (
-    <View className="flex-1">
-      <ThemedView className="flex-1 items-center justify-center gap-4 p-5">
-        {status === "processing" && (
-          <>
-            <ActivityIndicator size="large" />
-            <Text className="mt-4 text-base leading-6 text-center text-foreground">
-              Completing authentication...
-            </Text>
-          </>
-        )}
-        {status === "success" && (
-          <>
-            <Text className="text-base leading-6 text-center text-foreground">
-              Authentication successful!
-            </Text>
-            <Text className="text-base leading-6 text-center text-foreground">
-              Redirecting...
-            </Text>
-          </>
-        )}
-        {status === "error" && (
-          <>
-            <Text className="mb-2 text-xl font-bold leading-7 text-error">
-              Authentication failed
-            </Text>
-            <Text className="text-base leading-6 text-center text-foreground">
-              {errorMessage}
-            </Text>
-          </>
-        )}
-      </ThemedView>
+    <View className="flex-1 items-center justify-center bg-background">
+      {status === "processing" && (
+        <>
+          <ActivityIndicator size="large" />
+          <Text className="mt-4 text-muted-foreground">Processing login...</Text>
+        </>
+      )}
+      {status === "success" && (
+        <Text className="text-emerald-500 font-medium">Login successful! Redirecting...</Text>
+      )}
+      {status === "error" && (
+        <View className="items-center px-4">
+          <Text className="text-destructive font-medium text-center">
+            {errorMessage || "Authentication failed"}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
