@@ -1,6 +1,5 @@
 import "@/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cssInterop } from "react-native-css-interop";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -25,9 +24,6 @@ import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 
 import { trpc, createTRPCClient } from "@/lib/trpc";
 import { initManusRuntime, subscribeSafeAreaInsets } from "@/lib/_core/manus-runtime";
-
-// 📦 SafeAreaProvider ko safe tareeqe se wrap kar rahe hain
-const StyledSafeAreaProvider = cssInterop(SafeAreaProvider, { className: "style" });
 
 const DEFAULT_WEB_INSETS: EdgeInsets = { top: 0, right: 0, bottom: 0, left: 0 };
 const DEFAULT_WEB_FRAME: Rect = { x: 0, y: 0, width: 0, height: 0 };
@@ -80,7 +76,7 @@ export default function RootLayout() {
   );
   const [trpcClient] = useState(() => createTRPCClient());
 
-  // Ensure minimum 8px padding for top and bottom on mobile
+  // Ensure minimum 16px padding for top and 12px for bottom on mobile
   const providerInitialMetrics = useMemo(() => {
     const metrics = initialWindowMetrics ?? { insets: initialInsets, frame: initialFrame };
     return {
@@ -122,24 +118,24 @@ export default function RootLayout() {
   if (shouldOverrideSafeArea) {
     return (
       <ThemeProvider>
-        {/* 🔄 Styled component ka istemal */}
-        <StyledSafeAreaProvider initialMetrics={providerInitialMetrics}>
+        {/* ✅ Standard SafeAreaProvider used here */}
+        <SafeAreaProvider initialMetrics={providerInitialMetrics}>
           <SafeAreaFrameContext.Provider value={frame}>
             <SafeAreaInsetsContext.Provider value={insets}>
               {content}
             </SafeAreaInsetsContext.Provider>
           </SafeAreaFrameContext.Provider>
-        </StyledSafeAreaProvider>
+        </SafeAreaProvider>
       </ThemeProvider>
     );
   }
 
   return (
     <ThemeProvider>
-      {/* 🔄 Styled component ka istemal */}
-      <StyledSafeAreaProvider initialMetrics={providerInitialMetrics}>
+      {/* ✅ Standard SafeAreaProvider used here */}
+      <SafeAreaProvider initialMetrics={providerInitialMetrics}>
         {content}
-      </StyledSafeAreaProvider>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
