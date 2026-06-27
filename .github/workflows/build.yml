@@ -1,4 +1,4 @@
-name: Android Release Build
+Name: Android Release Build
 
 on:
   push:
@@ -29,6 +29,7 @@ jobs:
 
     - name: Decode Android Keystore File
       run: |
+        mkdir -p android/app
         echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/production.keystore
 
     - name: Verify and Print SHA Fingerprints
