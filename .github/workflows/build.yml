@@ -42,11 +42,12 @@ jobs:
     - name: Grant Execute Permission for Gradlew
       run: chmod +x android/gradlew
 
-    # === FIXED GRADLE PATH ERROR ===
+    # === FORCED CLEAN & FRESH COMPILATION ===
     - name: Build Android App Bundle (AAB)
       run: |
         cd android
-        ./gradlew bundleRelease \
+        ./gradlew clean
+        ./gradlew bundleRelease --no-build-cache --rerun-tasks \
           -Pandroid.injected.signing.store.file=$(pwd)/app/production.keystore \
           -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \

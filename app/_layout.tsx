@@ -24,10 +24,7 @@ import {
 import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 
 import { trpc, createTRPCClient } from "@/lib/trpc";
-import {
-  initManusRuntime,
-  subscribeSafeAreaInsets,
-} from "@/lib/_core/manus-runtime";
+import { initManusRuntime, subscribeSafeAreaInsets } from "@/lib/_core/manus-runtime";
 
 // 👑 CRITICAL INTEROP & DISPLAYNAME FIX
 // Pehle interop wrapper chalayein, phir hamesha ke liye displayName restore karein
@@ -58,8 +55,8 @@ export default function RootLayout() {
 
   // Initialize offline cache on app startup
   useEffect(() => {
-    initializeOfflineCache().catch((error) => {
-      console.error("[Offline] Failed to initialize cache:", error);
+    initializeOfflineCache().catch(error => {
+      console.error('[Offline] Failed to initialize cache:', error);
     });
   }, []);
 
@@ -90,10 +87,7 @@ export default function RootLayout() {
 
   // Ensure minimum padding for top and bottom on mobile
   const providerInitialMetrics = useMemo(() => {
-    const metrics = initialWindowMetrics ?? {
-      insets: initialInsets,
-      frame: initialFrame,
-    };
+    const metrics = initialWindowMetrics ?? { insets: initialInsets, frame: initialFrame };
     return {
       ...metrics,
       insets: {
