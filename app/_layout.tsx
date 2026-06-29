@@ -1,6 +1,5 @@
 import "@/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cssInterop } from "react-native-css-interop";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -24,14 +23,15 @@ import {
 import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 
 import { trpc, createTRPCClient } from "@/lib/trpc";
-import { initManusRuntime, subscribeSafeAreaInsets } from "@/lib/_core/manus-runtime";
+import {
+  initManusRuntime,
+  subscribeSafeAreaInsets,
+} from "@/lib/_core/manus-runtime";
 
-// 👑 CRITICAL INTEROP & DISPLAYNAME FIX
-// Pehle interop wrapper chalayein, phir hamesha ke liye displayName restore karein
-cssInterop(SafeAreaProvider, { className: "style" });
-
-if (SafeAreaProvider) {
-  SafeAreaProvider.displayName = "SafeAreaProvider";
+// 👑 CRITICAL DISPLAYNAME FIX
+// NativeWind interop ko hata diya hai kyunki yeh minify hote waqt property read nahi kar pata.
+if (SafeAreaProvider && typeof SafeAreaProvider === "object") {
+  (SafeAreaProvider as any).displayName = "SafeAreaProvider";
 }
 
 const DEFAULT_WEB_INSETS: EdgeInsets = { top: 0, right: 0, bottom: 0, left: 0 };
@@ -55,8 +55,8 @@ export default function RootLayout() {
 
   // Initialize offline cache on app startup
   useEffect(() => {
-    initializeOfflineCache().catch(error => {
-      console.error('[Offline] Failed to initialize cache:', error);
+    initializeOfflineCache().catch((error) => {
+      console.error("[Offline] Failed to initialize cache:", error);
     });
   }, []);
 
@@ -87,7 +87,10 @@ export default function RootLayout() {
 
   // Ensure minimum padding for top and bottom on mobile
   const providerInitialMetrics = useMemo(() => {
-    const metrics = initialWindowMetrics ?? { insets: initialInsets, frame: initialFrame };
+    const metrics = initialWindowMetrics ?? {
+      insets: initialInsets,
+      frame: initialFrame,
+    };
     return {
       ...metrics,
       insets: {
