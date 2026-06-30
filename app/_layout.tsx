@@ -28,11 +28,10 @@ import {
   subscribeSafeAreaInsets,
 } from "@/lib/_core/manus-runtime";
 
-// 👑 CRITICAL DISPLAYNAME FIX
-// NativeWind interop ko hata diya hai kyunki yeh minify hote waqt property read nahi kar pata.
-if (SafeAreaProvider && typeof SafeAreaProvider === "object") {
-  (SafeAreaProvider as any).displayName = "SafeAreaProvider";
-}
+// 🛠️ NativeWind Interop Integration
+// Yeh line NativeWind aur SafeAreaContext ke takrao (conflict) ko hamesha ke liye theek kar deti hai.
+import { cssInterop } from "nativewind";
+cssInterop(SafeAreaProvider, { className: "style" });
 
 const DEFAULT_WEB_INSETS: EdgeInsets = { top: 0, right: 0, bottom: 0, left: 0 };
 const DEFAULT_WEB_FRAME: Rect = { x: 0, y: 0, width: 0, height: 0 };
