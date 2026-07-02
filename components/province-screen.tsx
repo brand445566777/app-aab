@@ -1,12 +1,12 @@
 import { ScrollView, Text, View } from "react-native";
 import { useState, useMemo } from "react";
 import { ScreenContainer } from "./screen-container";
-import { HelplineCard } from "./helpline-card";
-import { CategoryFilterBar } from "./category-filter-bar";
+import HelplineCard from "./helpline-card";
+import CategoryFilterBar from "./category-filter-bar";
 import { ProvinceData } from "@/lib/helplines";
 import { useColors } from "@/hooks/use-colors";
 import { useCategoryFilter } from "@/lib/category-filter-context";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface ProvinceScreenProps {
   province: ProvinceData;
@@ -31,14 +31,15 @@ export function ProvinceScreen({ province }: ProvinceScreenProps) {
       .map((section) => ({
         ...section,
         helplines: section.helplines.filter((h) =>
-          selectedCategories.includes(h.category as any)
+          selectedCategories.includes(h.category as any),
         ),
       }))
       .filter((section) => section.helplines.length > 0);
   }, [selectedCategories, province.sections]);
 
   const filteredSections = getFilteredSections;
-  const hasResults = filteredSections.length > 0 && 
+  const hasResults =
+    filteredSections.length > 0 &&
     filteredSections.some((s) => s.helplines.length > 0);
 
   return (
@@ -64,10 +65,7 @@ export function ProvinceScreen({ province }: ProvinceScreenProps) {
               >
                 {province.name}
               </Text>
-              <Text
-                className="text-xs"
-                style={{ color: colors.muted }}
-              >
+              <Text className="text-xs" style={{ color: colors.muted }}>
                 {province.nameUrdu}
               </Text>
             </View>
@@ -123,11 +121,7 @@ export function ProvinceScreen({ province }: ProvinceScreenProps) {
             ))
           ) : (
             <View className="items-center justify-center py-12">
-              <MaterialIcons
-                name="search-off"
-                size={48}
-                color={colors.muted}
-              />
+              <MaterialIcons name="search-off" size={48} color={colors.muted} />
               <Text
                 className="text-base font-semibold mt-4"
                 style={{ color: colors.foreground }}
