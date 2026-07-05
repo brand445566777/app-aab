@@ -96,8 +96,8 @@ android {
         applicationId 'space.manus.pakistan.emergency.helpline.t20260304040534'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10044
-        versionName "3.0.7"
+        versionCode 10045
+        versionName "3.0.8"
 
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
