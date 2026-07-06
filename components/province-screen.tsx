@@ -1,8 +1,8 @@
 import { ScrollView, Text, View } from "react-native";
 import { useState, useMemo } from "react";
 import { ScreenContainer } from "./screen-container";
-import HelplineCard from "./helpline-card";
-import CategoryFilterBar from "./category-filter-bar";
+import { HelplineCard } from "./helpline-card";
+import { CategoryFilterBar } from "./category-filter-bar";
 import { ProvinceData } from "@/lib/helplines";
 import { useColors } from "@/hooks/use-colors";
 import { useCategoryFilter } from "@/lib/category-filter-context";

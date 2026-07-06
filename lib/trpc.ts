@@ -18,23 +18,18 @@ export const trpc = createTRPCReact<AppRouter>();
  * Creates the tRPC client with proper configuration.
  * Call this once in your app's root layout.
  */
-export function createTRPCClient() {
+export const trpcClient = () => {
   return trpc.createClient({
+    transformer: superjson,
     links: [
       httpBatchLink({
         url: `${getApiBaseUrl()}/api/trpc`,
-        // tRPC v11: transformer MUST be inside httpBatchLink, not at root
-        transformer: superjson,
         async headers() {
-          const token = await Auth.getSessionToken();
-          return token ? { Authorization: `Bearer ${token}` } : {};
+          const headers = new Headers();
+          return Object.fromEntries(headers.entries());
         },
-        // Custom fetch to include credentials for cookie-based auth
         fetch(url, options) {
-          return fetch(url, {
-            ...options,
-            credentials: "include",
-          });
+          return fetch(url, options);
         },
       }),
     ],

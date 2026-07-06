@@ -17,7 +17,30 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
         headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarButton: (props) => {
+          const {
+            onBlur,
+            onFocus,
+            onPressIn,
+            onPressOut,
+            onLongPress,
+            delayLongPress,
+            disabled,
+            ...rest
+          } = props;
+          return (
+            <HapticTab
+              {...rest}
+              onBlur={onBlur ?? undefined}
+              onFocus={onFocus ?? undefined}
+              onPressIn={onPressIn ?? undefined}
+              onPressOut={onPressOut ?? undefined}
+              onLongPress={onLongPress ?? undefined}
+              delayLongPress={delayLongPress ?? undefined}
+              disabled={disabled ?? undefined} // <--- Yeh aakhri line shamil karein
+            />
+          );
+        },
         tabBarStyle: {
           paddingTop: 8,
           paddingBottom: bottomPadding,
@@ -33,7 +56,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
         }}
       />
 
@@ -42,7 +67,9 @@ export default function TabLayout() {
         name="health-complaints"
         options={{
           title: "Healthcare",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="heart.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="heart.fill" color={color} />
+          ),
         }}
       />
 
@@ -51,7 +78,9 @@ export default function TabLayout() {
         name="favorites"
         options={{
           title: "Favorites",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="star.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="star.fill" color={color} />
+          ),
         }}
       />
 
@@ -60,7 +89,9 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Settings",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="gear" color={color} />
+          ),
         }}
       />
     </Tabs>
