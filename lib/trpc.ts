@@ -1,25 +1,19 @@
 import { createTRPCReact } from "@trpc/react-query";
-import { httpBatchLink } from "@trpc/client";
+import { httpBatchLink, createTRPCClient } from "@trpc/client";
 import superjson from "superjson";
 import type { AppRouter } from "@/server/routers";
 import { getApiBaseUrl } from "@/constants/oauth";
-import * as Auth from "@/lib/_core/auth";
 
 /**
- * tRPC React client for type-safe API calls.
- *
- * IMPORTANT (tRPC v11): The `transformer` must be inside `httpBatchLink`,
- * NOT at the root createClient level. This ensures client and server
- * use the same serialization format (superjson).
+ * React Hooks wrapper for tRPC.
  */
 export const trpc = createTRPCReact<AppRouter>();
 
 /**
- * Creates the tRPC client with proper configuration.
- * Call this once in your app's root layout.
+ * Standard tRPC client initialization for React Native / Expo root layout.
  */
 export const trpcClient = () => {
-  return trpc.createClient({
+  return createTRPCClient<AppRouter>({
     transformer: superjson,
     links: [
       httpBatchLink({
@@ -28,10 +22,7 @@ export const trpcClient = () => {
           const headers = new Headers();
           return Object.fromEntries(headers.entries());
         },
-        fetch(url, options) {
-          return fetch(url, options);
-        },
       }),
     ],
   });
-}
+};
