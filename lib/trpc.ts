@@ -1,5 +1,5 @@
 import { createTRPCReact } from "@trpc/react-query";
-import { httpBatchLink, createTRPCClient } from "@trpc/client";
+import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import type { AppRouter } from "@/server/routers";
 import { getApiBaseUrl } from "@/constants/oauth";
@@ -10,10 +10,10 @@ import { getApiBaseUrl } from "@/constants/oauth";
 export const trpc = createTRPCReact<AppRouter>();
 
 /**
- * Standard tRPC client initialization for React Native / Expo root layout.
+ * Production-safe tRPC client builder for GitHub Active AAB.
  */
 export const trpcClient = () => {
-  return createTRPCClient<AppRouter>({
+  return (trpc as any).createClient({
     transformer: superjson,
     links: [
       httpBatchLink({
