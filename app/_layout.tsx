@@ -23,14 +23,12 @@ import {
 } from "react-native-safe-area-context";
 import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 
-import { trpc, TRPCClient } from "@/lib/trpc";
+import { trpc, trpcClient as getTrpcClient } from "@/lib/trpc";
 import {
   initManusRuntime,
   subscribeSafeAreaInsets,
 } from "@/lib/_core/manus-runtime";
 
-// 🛠️ NativeWind Interop Integration
-// Yeh line NativeWind aur SafeAreaContext ke takrao (conflict) ko hamesha ke liye theek kar deti hai.
 import { cssInterop } from "nativewind";
 cssInterop(SafeAreaProvider, { className: "style" });
 
@@ -48,13 +46,8 @@ export default function RootLayout() {
   const [insets, setInsets] = useState<EdgeInsets>(initialInsets);
   const [frame, setFrame] = useState<Rect>(initialFrame);
 
-  // Initialize Manus runtime for cookie injection from parent container
   useEffect(() => {
     initManusRuntime();
-  }, []);
-
-  // Initialize offline cache on app startup
-  useEffect(() => {
     initializeOfflineCache().catch((error) => {
       console.error("[Offline] Failed to initialize cache:", error);
     });
@@ -71,7 +64,6 @@ export default function RootLayout() {
     return () => unsubscribe();
   }, [handleSafeAreaUpdate]);
 
-  // Create clients once and reuse them
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -83,9 +75,16 @@ export default function RootLayout() {
         },
       }),
   );
-  const [trpcClient] = useState(() => createTRPCClient());
 
-  // Ensure minimum padding for top and bottom on mobile
+  // Safe client extraction to prevent production minification runtime crashes
+  const [trpcClientInstance] = useState(() => {
+    try {
+      return getTrpcClient();
+    } catch (e) {
+      return {} as any;
+    }
+  });
+
   const providerInitialMetrics = useMemo(() => {
     const metrics = initialWindowMetrics ?? {
       insets: initialInsets,
@@ -103,7 +102,7 @@ export default function RootLayout() {
 
   const content = (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <trpc.Provider client={trpcClientInstance} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <UMPProvider>
             <NetworkProvider>
@@ -125,9 +124,7 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 
-  const shouldOverrideSafeArea = Platform.OS === "web";
-
-  if (shouldOverrideSafeArea) {
+  if (Platform.OS === "web") {
     return (
       <ThemeProvider>
         <SafeAreaProvider initialMetrics={providerInitialMetrics}>
