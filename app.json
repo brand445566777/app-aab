@@ -6,7 +6,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "manust20260304040534",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
     "orientation": "default",
     "ios": {
       "supportsTablet": true,
@@ -16,9 +15,6 @@
       }
     },
     "android": {
-      "minSdkVersion": 24,
-      "targetSdkVersion": 35,
-      "compileSdkVersion": 36,
       "versionCode": 10049,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
@@ -27,7 +23,6 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "space.manus.pakistan.emergency.helpline.t20260304040534",
       "permissions": [
@@ -51,11 +46,7 @@
             "DEFAULT"
           ]
         }
-      ],
-      "usesCleartextTraffic": false,
-      "enableOnBackInvokedCallback": true,
-      "resizeableActivity": true,
-      "supportsRtl": true
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -91,7 +82,8 @@
             "minSdkVersion": 24,
             "targetSdkVersion": 35,
             "compileSdkVersion": 36,
-            "kotlinVersion": "2.1.20"
+            "kotlinVersion": "2.1.20",
+            "usesCleartextTraffic": true
           }
         }
       ],
@@ -101,7 +93,8 @@
           "androidAppId": "ca-app-pub-3617790148719581~6917999502",
           "iosAppId": "ca-app-pub-3617790148719581~6917999502"
         }
-      ]
+      ],
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,
