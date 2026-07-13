@@ -6,7 +6,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useAppVersion, useVersionDisplay } from "@/hooks/use-app-version";
 // Import Native Advanced Ad Component
 import { NativeAdvancedAd } from "@/components/NativeAdvancedAd";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeContext } from "@/lib/theme-provider";
 
 export default function SettingsScreen() {

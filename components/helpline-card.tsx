@@ -8,7 +8,7 @@ import {
   Share,
   Platform,
 } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Helpline } from "@/lib/helplines";
 import { useHelplines } from "@/lib/helpline-context";
 import { useColors } from "@/hooks/use-colors";

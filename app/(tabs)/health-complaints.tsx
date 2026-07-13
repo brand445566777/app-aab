@@ -5,7 +5,7 @@ import { useColors } from "@/hooks/use-colors";
 import { useHelplines } from "@/lib/helpline-context";
 // Import Native Advanced Ad Component
 import { NativeAdvancedAd } from "@/components/NativeAdvancedAd";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { getAllHelplines, allProvinces } from "@/lib/helplines";
 import { CategoryFilterBar } from "@/components/category-filter-bar";
 import { useCategoryFilter } from "@/lib/category-filter-context";

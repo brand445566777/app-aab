@@ -3,10 +3,10 @@
  * Shows when the app is in offline mode
  */
 
-import React from 'react';
-import { View, Text } from 'react-native';
-import { useNetwork } from '@/lib/network-context';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import React from "react";
+import { View, Text } from "react-native";
+import { useNetwork } from "@/lib/network-context";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export function OfflineIndicator() {
   const { isOnline } = useNetwork();

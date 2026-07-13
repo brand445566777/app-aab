@@ -1,10 +1,17 @@
 import React from "react";
 import { ScrollView, Pressable, Text, View } from "react-native";
 import { useColors } from "@/hooks/use-colors";
-import { useCategoryFilter, type HelplineCategory } from "@/lib/category-filter-context";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import {
+  useCategoryFilter,
+  type HelplineCategory,
+} from "@/lib/category-filter-context";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const PROFESSIONAL_CATEGORIES: { key: HelplineCategory; label: string; icon: string }[] = [
+const PROFESSIONAL_CATEGORIES: {
+  key: HelplineCategory;
+  label: string;
+  icon: string;
+}[] = [
   { key: "emergency", label: "Emergency", icon: "warning-amber" },
   { key: "rescue", label: "Rescue", icon: "local-fire-department" },
   { key: "fire", label: "Fire", icon: "fire-extinguisher" },

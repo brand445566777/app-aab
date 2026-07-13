@@ -6,7 +6,7 @@ import { useHelplines } from "@/lib/helpline-context";
 import { useColors } from "@/hooks/use-colors";
 // Import Native Advanced Ad Component
 import { NativeAdvancedAd } from "@/components/NativeAdvancedAd";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function FavoritesScreen() {
   const colors = useColors();

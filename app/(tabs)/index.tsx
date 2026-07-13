@@ -10,10 +10,15 @@ import { useNavigation } from "@/lib/navigation-context";
 // Import Banner and Native Ad Components
 import { BannerAd } from "@/components/BannerAd";
 import { NativeAdvancedAd } from "@/components/NativeAdvancedAd";
-import { nationalEmergency, allProvinces, federal , HelplineSection, Helpline } from "@/lib/helplines";
+import {
+  nationalEmergency,
+  allProvinces,
+  federal,
+  HelplineSection,
+  Helpline,
+} from "@/lib/helplines";
 import { useState, useMemo } from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
+import { MaterialIcons } from "@expo/vector-icons";
 const REGION_MAP: Record<string, any> = {
   home: nationalEmergency,
   federal: federal,

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { ScrollView, Pressable, Text, View, Animated } from "react-native";
 import { useColors } from "@/hooks/use-colors";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export interface RegionalCategory {
   id: string;
@@ -18,13 +18,43 @@ interface RegionalNavigationMenuProps {
 
 const REGIONAL_CATEGORIES: RegionalCategory[] = [
   { id: "home", label: "Home", icon: "home", description: "Overview" },
-  { id: "federal", label: "Federal", icon: "account-balance", description: "Islamabad" },
-  { id: "punjab", label: "Punjab", icon: "location-on", description: "Province" },
+  {
+    id: "federal",
+    label: "Federal",
+    icon: "account-balance",
+    description: "Islamabad",
+  },
+  {
+    id: "punjab",
+    label: "Punjab",
+    icon: "location-on",
+    description: "Province",
+  },
   { id: "sindh", label: "Sindh", icon: "location-on", description: "Province" },
-  { id: "balochistan", label: "Balochistan", icon: "location-on", description: "Province" },
-  { id: "kpk", label: "KPK", icon: "location-on", description: "Khyber Pakhtunkhwa" },
-  { id: "gb", label: "Gilgit-Baltistan", icon: "location-on", description: "Region" },
-  { id: "ajk", label: "Azad Kashmir", icon: "location-on", description: "Region" },
+  {
+    id: "balochistan",
+    label: "Balochistan",
+    icon: "location-on",
+    description: "Province",
+  },
+  {
+    id: "kpk",
+    label: "KPK",
+    icon: "location-on",
+    description: "Khyber Pakhtunkhwa",
+  },
+  {
+    id: "gb",
+    label: "Gilgit-Baltistan",
+    icon: "location-on",
+    description: "Region",
+  },
+  {
+    id: "ajk",
+    label: "Azad Kashmir",
+    icon: "location-on",
+    description: "Region",
+  },
 ];
 
 export function RegionalNavigationMenu({
@@ -49,7 +79,6 @@ export function RegionalNavigationMenu({
       }, 100);
     }
   }, [activeCategory, categories]);
-
 
   return (
     <View className="mb-4">
@@ -113,7 +142,9 @@ export function RegionalNavigationMenu({
 
                   {/* Label */}
                   <Text
-                    className={`text-center ${isActive ? "font-bold" : "font-semibold"}`}
+                    className={`text-center ${
+                      isActive ? "font-bold" : "font-semibold"
+                    }`}
                     style={{
                       fontSize: isActive ? 14 : 13,
                       color: isActive ? "white" : colors.foreground,
@@ -129,7 +160,9 @@ export function RegionalNavigationMenu({
                     <Text
                       className="text-xs"
                       style={{
-                        color: isActive ? "rgba(255,255,255,0.7)" : colors.muted,
+                        color: isActive
+                          ? "rgba(255,255,255,0.7)"
+                          : colors.muted,
                       }}
                       numberOfLines={1}
                     >
@@ -144,10 +177,7 @@ export function RegionalNavigationMenu({
       </ScrollView>
 
       {/* Subtle Divider */}
-      <View
-        className="h-0.5 mt-2"
-        style={{ backgroundColor: colors.border }}
-      />
+      <View className="h-0.5 mt-2" style={{ backgroundColor: colors.border }} />
     </View>
   );
 }
