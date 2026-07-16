@@ -48,7 +48,6 @@ jobs:
 
     - name: Build Android App Bundle (AAB)
       run: |
-        npx expo prebuild
         cd android
         ./gradlew clean
         ./gradlew bundleRelease --no-build-cache --rerun-tasks \
