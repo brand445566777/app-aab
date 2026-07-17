@@ -1,65 +1,78 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+# ==========================================
+# Dependencies
+# ==========================================
 node_modules/
+jspm_packages/
+bun.lockb
 
-# Expo
+# ==========================================
+# Expo & Metro Bundler
+# ==========================================
 .expo/
 dist/
 web-build/
 expo-env.d.ts
+.metro-health-check*
 
-# Native
+# ==========================================
+# Native Builds & Generated Folders
+# ==========================================
+/ios/
+/android/
 .kotlin/
 *.orig.*
+
+# ==========================================
+# Environment Variables & Local Secrets
+# ==========================================
+.env
+.env.local
+.env.*.local
+
+# ==========================================
+# Signing Certificates & Keys (Security)
+# ==========================================
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.cer
+*.pem
 
-# Metro
-.metro-health-check*
+# ==========================================
+# TypeScript & Build Info
+# ==========================================
+*.tsbuildinfo
 
-# debug
+# ==========================================
+# Logs & Debug Files
+# ==========================================
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+pnpm-debug.*
 
-# macOS
-.DS_Store
-*.pem
+# ==========================================
+# Testing & Code Coverage
+# ==========================================
+coverage/
 
-# local env files
-.env*.local
-
-# typescript
-*.tsbuildinfo
-
-app-example
-
-# generated native folders
-/ios
-/android
-
-# IDE
-.vscode/
+# ==========================================
+# IDE & Editors (VS Code / Android Studio)
+# ==========================================
 .idea/
 *.swp
 *.swo
-*~
+*.swn
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
-# Logs
-logs
-*.log
-
-# OS
+# ==========================================
+# Operating System Generated Files
+# ==========================================
+.DS_Store
 Thumbs.db
-
-# Build files
-*.tgz
-*.tar.gz
-.cache/
-
-# Webdev artifacts (checkpoint zips, migrations, etc.)
-.webdev/
+Desktop.ini
