@@ -1,20 +1,17 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Platform,
   ActivityIndicator,
+  Image,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import NativeAdView, {
-  CallToActionView,
-  HeadlineView,
-  BodyView,
-  IconView,
-  MediaView,
-  AdvertiserView,
+import {
+  NativeAd,
+  NativeAdView,
+  NativeMediaView,
 } from "react-native-google-mobile-ads";
 
 const NATIVE_AD_UNIT_ID =
@@ -23,11 +20,11 @@ const NATIVE_AD_UNIT_ID =
     : "ca-app-pub-3617790148719581/2428090151"; // Real Native AdUnit ID for iOS
 
 /**
- * NativeAdvancedAd Component
+ * NativeAdvancedAd Component (Corrected for react-native-google-mobile-ads v15+)
  *
  * Displays a real native advanced ad matching the app's theme.
  * Features:
- * - Proper SDK Integration (No more mock/fake data)
+ * - Proper SDK Integration (Uses NativeAd.createForAdRequest)
  * - Professional card-style design with color theme #0A3D62
  * - Safe error handling and automatic height collapse on failure
  */
@@ -46,85 +43,98 @@ export const NativeAdvancedAd = React.memo(
   }: NativeAdvancedAdProps) => {
     const [loading, setLoading] = useState(true);
     const [adFailed, setAdFailed] = useState(false);
-    const nativeAdRef = useRef<any>(null);
+    const [nativeAd, setNativeAd] = useState<NativeAd | null>(null);
 
     useEffect(() => {
-      // Load native ad on mount
-      if (nativeAdRef.current) {
-        nativeAdRef.current.loadAd();
-      }
-    }, []);
+      let isMounted = true;
+      setLoading(true);
 
-    const handleAdLoaded = () => {
-      setLoading(false);
-      setAdFailed(false);
-      onAdLoaded?.();
-    };
+      NativeAd.createForAdRequest(adUnitId, {
+        keywords: ["emergency", "helpline", "pakistan"],
+        contentUrl: "https://pakistan-emergency-helpline.app",
+      })
+        .then((ad) => {
+          if (isMounted) {
+            setNativeAd(ad);
+            setLoading(false);
+            setAdFailed(false);
+            onAdLoaded?.();
+          }
+        })
+        .catch((error) => {
+          console.warn("Native ad failed to load:", error);
+          if (isMounted) {
+            setLoading(false);
+            setAdFailed(true);
+            onAdFailedToLoad?.(error);
+          }
+        });
 
-    const handleAdFailedToLoad = (error: any) => {
-      console.warn("Native ad failed to load:", error);
-      setLoading(false);
-      setAdFailed(true); // Fail hone par component collapse ho jayega
-      onAdFailedToLoad?.(error);
-    };
+      return () => {
+        isMounted = false;
+        if (nativeAd) {
+          nativeAd.destroy();
+        }
+      };
+    }, [adUnitId]);
 
     if (adFailed) {
-      return null; // Ad fail ho to screen par khali jagah nahi bachegi
+      return null;
+    }
+
+    if (loading || !nativeAd) {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="small" color="#0A3D62" />
+        </View>
+      );
     }
 
     return (
       <View style={styles.adContainer}>
-        {/* Real Native Ad View Wrapper */}
         <NativeAdView
-          ref={nativeAdRef}
-          adUnitId={adUnitId}
-          onAdLoaded={handleAdLoaded}
-          onAdFailedToLoad={handleAdFailedToLoad}
-          requestOptions={{
-            keywords: ["emergency", "helpline", "pakistan"],
-            contentUrl: "https://pakistan-emergency-helpline.app",
-          }}
+          nativeAd={nativeAd}
           style={styles.card}
         >
-          {/* Ad Badge */}
           <View style={styles.adBadge}>
             <Text style={styles.adBadgeText}>Ad</Text>
           </View>
 
-          {loading && (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color="#0A3D62" />
+          <View style={styles.header}>
+            {nativeAd.icon ? (
+              <Image source={{ uri: nativeAd.icon.url }} style={styles.appIcon} />
+            ) : (
+              <View style={[styles.appIcon, { backgroundColor: "#F5F7FA" }]} />
+            )}
+
+            <View style={styles.headlineContainer}>
+              <Text style={styles.headline} numberOfLines={2}>
+                {nativeAd.headline}
+              </Text>
+            </View>
+          </View>
+
+          {nativeAd.body && (
+            <Text style={styles.description} numberOfLines={3}>
+              {nativeAd.body}
+            </Text>
+          )}
+
+          <View style={styles.mediaContainer}>
+            <NativeMediaView style={styles.media} resizeMode="cover" />
+          </View>
+
+          {nativeAd.callToAction && (
+            <View style={styles.ctaButton}>
+              <Text style={styles.ctaButtonText}>
+                {nativeAd.callToAction}
+              </Text>
             </View>
           )}
 
-          {/* Header Content */}
-          <View style={styles.header}>
-            {/* App/Ad Icon */}
-            <IconView style={styles.appIcon} />
-
-            <View style={styles.headlineContainer}>
-              {/* Real Headline */}
-              <HeadlineView style={styles.headline} numberOfLines={2} />
-            </View>
-          </View>
-
-          {/* Real Description / Body */}
-          <BodyView style={styles.description} numberOfLines={3} />
-
-          {/* Real Media View (Image/Video) */}
-          <View style={styles.mediaContainer}>
-            <MediaView style={styles.media} />
-          </View>
-
-          {/* Real Call To Action (CTA) Button */}
-          <CallToActionView
-            style={styles.ctaButton}
-            textStyle={styles.ctaButtonText}
-            allowFontScaling={false}
-          />
-
-          {/* Real Advertiser info */}
-          <AdvertiserView style={styles.advertiser} />
+          {nativeAd.advertiser && (
+            <Text style={styles.advertiser}>{nativeAd.advertiser}</Text>
+          )}
         </NativeAdView>
       </View>
     );
@@ -167,6 +177,12 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    marginVertical: 12,
+    marginHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
   },
   header: {
     flexDirection: "row",
@@ -178,11 +194,10 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 8,
     marginRight: 12,
-    backgroundColor: "#F5F7FA",
   },
   headlineContainer: {
     flex: 1,
-    paddingRight: 24, // Badge se overlap na ho
+    paddingRight: 24,
   },
   headline: {
     fontSize: 14,
