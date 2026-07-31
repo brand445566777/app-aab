@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pakistan Emergency Helpline",
     "slug": "pakistan-emergency-helpline",
-    "version": "4.0.9",
+    "version": "5.0.0",
     "icon": "./assets/images/icon.png",
     "scheme": "manust20260304040534",
     "userInterfaceStyle": "automatic",
@@ -15,7 +15,7 @@
       }
     },
     "android": {
-      "versionCode": 10056,
+      "versionCode": 10057,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#0A3D62",
@@ -101,12 +101,16 @@
       "reactCompiler": false
     },
     "extra": {
-      "appVersion": "4.0.9",
+      "appVersion": "5.0.0",
       "androidAppId": "ca-app-pub-3617790148719581~6917999502",
       "router": {},
       "eas": {
         "projectId": "1dce1176-d507-4ec5-8322-9e9f10b65bff"
       }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3617790148719581~6917999502",
+    "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
   }
 }
