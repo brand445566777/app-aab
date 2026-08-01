@@ -1,4 +1,5 @@
 const { getDefaultConfig } = require('expo/metro-config');
+const { withNativeWind } = require('nativewind/metro'); // 👈 Added for NativeWind v4 support!
 
 const config = getDefaultConfig(__dirname);
 
@@ -9,4 +10,5 @@ config.transformer.minifierConfig = {
   },
 };
 
-module.exports = config;
+// 👈 Wrapped config with withNativeWind to compile Tailwind CSS in Production!
+module.exports = withNativeWind(config, { input: './global.css' });
