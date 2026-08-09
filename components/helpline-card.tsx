@@ -48,12 +48,20 @@ export function HelplineCard({
 
   const handleCall = async () => {
     try {
-      const phoneNumber = `tel:${helpline.number}`;
-      const canOpen = await Linking.canOpenURL(phoneNumber);
-      if (canOpen) {
-        await Linking.openURL(phoneNumber);
+      // Clean non-numeric characters for perfect dialer parsing
+      const cleanNumber = helpline.number.replace(/[^0-9+]/g, '');
+      const phoneNumber = 'tel:' + cleanNumber;
+      
+      if (Platform.OS === 'web') {
+        const canOpen = await Linking.canOpenURL(phoneNumber);
+        if (canOpen) {
+          await Linking.openURL(phoneNumber);
+        } else {
+          Alert.alert("Error", "Unable to make call on this device");
+        }
       } else {
-        Alert.alert("Error", "Unable to make call on this device");
+        // Direct call unblocked on Native Android & iOS (Bypasses Android 11+ Package Visibility)
+        await Linking.openURL(phoneNumber);
       }
     } catch (error) {
       Alert.alert("Error", "Failed to initiate call");
@@ -118,9 +126,9 @@ export function HelplineCard({
           flexDirection: "row",
           alignItems: "center",
           gap: 16,
-          padding: 16,
-          marginBottom: 12,
-          borderRadius: 16,
+          padding: 12,
+          marginBottom: 10,
+          borderRadius: 14,
           backgroundColor: colors.surface,
           borderColor: colors.border,
           borderWidth: 1,
@@ -134,9 +142,9 @@ export function HelplineCard({
         {/* Icon Container - Safely injecting color with fallback */}
         <View
           style={{
-            width: 56,
-            height: 56,
-            borderRadius: 28,
+            width: 44,
+            height: 44,
+            borderRadius: 22,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: `${categoryColor}15`,
@@ -144,7 +152,7 @@ export function HelplineCard({
         >
           <MaterialIcons
             name={getHelplineIcon(helpline) as any}
-            size={28}
+            size={22}
             color={categoryColor}
           />
         </View>
@@ -155,8 +163,8 @@ export function HelplineCard({
             numberOfLines={1}
             style={{
               fontWeight: "bold",
-              fontSize: 16,
-              lineHeight: 20,
+              fontSize: 13,
+              lineHeight: 17,
               color: categoryColor,
             }}
           >
@@ -166,7 +174,7 @@ export function HelplineCard({
           <Text
             numberOfLines={1}
             style={{
-              fontSize: 12,
+              fontSize: 10,
               marginTop: 4,
               color: categoryColor,
             }}
@@ -177,8 +185,8 @@ export function HelplineCard({
           <Text
             style={{
               fontWeight: "bold",
-              fontSize: 16,
-              marginTop: 8,
+              fontSize: 13,
+              marginTop: 4,
               color: categoryColor,
             }}
           >
@@ -194,7 +202,7 @@ export function HelplineCard({
             style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <MaterialIcons name="share" size={24} color={colors.muted} />
+            <MaterialIcons name="share" size={20} color={colors.muted} />
           </Pressable>
 
           {/* Favorite Button */}
@@ -215,9 +223,9 @@ export function HelplineCard({
             onPress={handleCall}
             style={({ pressed }) => [
               {
-                width: 44,
-                height: 44,
-                borderRadius: 22,
+                width: 36,
+                height: 36,
+                borderRadius: 18,
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: categoryColor,
