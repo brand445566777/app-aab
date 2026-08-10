@@ -254,7 +254,7 @@ export const punjab: ProvinceData = {
         createHelpline("pun-029", "health", "General", "جنرل", "042-99264091", "punjab"),
         createHelpline("pun-030", "health", "PIC", "پی آئی سی", "042-99203051", "punjab"),
         createHelpline("pun-031", "health", "Sir Ganga Ram", "سر گنگا رام", "042-99200572", "punjab"),
-        createHelpline("pun-032", "health", "Fatimid Blood Bank", "فاطمیہ بلڈ بینک", "042-35863950", "punjab"),
+        createHelpline("pun-032", "health", "Fatima Blood Bank", "فاطمہ بلڈ بینک", "042-35863950", "punjab"),
       ],
     },
     {
